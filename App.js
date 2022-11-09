@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, Alert, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, Button, Alert, ScrollView, ImageBackground } from 'react-native';
 
 import Chat from "./components/Chat";
 import Start from "./components/Start";
+import CustomActions from './components/CustomActions';
 
 import 'react-native-gesture-handler';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-//import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Stack = createStackNavigator();
-//const Tab = createBottomTabNavigator();
-
 
 export default class App extends React.Component {
 
