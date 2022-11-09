@@ -6,28 +6,24 @@ import * as ImagePicker from 'expo-image-picker';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { connectActionSheet } from '@expo/react-native-action-sheet';
 import firebase from 'firebase';
-//import "firebase/firestore";
-import firestore from 'firebase';
+import 'firebase/firestore';
 
 export default class CustomActions extends React.Component {
   // Function to select a photo from library
 
   imagePicker = async () => {
     // expo permission
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    console.log("Status from imagePicker: ", { status });
+    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     try {
       if (status === 'granted') {
         // pick image
         const result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images, // only images are allowed
         }).catch((error) => console.log(error));
-        console.log("Result: ", result);
         // canceled process
         if (!result.cancelled) {
           const imageUrl = await this.uploadImageFetch(result.uri);
           this.props.onSend({ image: imageUrl });
-          console.log("from image picker function: ", { image });
         }
       }
     } catch (error) {
@@ -38,17 +34,16 @@ export default class CustomActions extends React.Component {
   // Function to take a new photo
 
   takePhoto = async () => {
-    // const { status } = await Permissions.askAsync(
-    //   Permissions.CAMERA,
-    //   Permissions.MEDIA_LIBRARY
-    // );
-    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    const { status } = await Permissions.askAsync(
+      Permissions.CAMERA,
+      Permissions.CAMERA_ROLL
+    );
     try {
       if (status === 'granted') {
         const result = await ImagePicker.launchCameraAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
         }).catch((error) => console.log(error));
-        console.log("Result: ", result);
+
         if (!result.cancelled) {
           const imageUrl = await this.uploadImageFetch(result.uri);
           this.props.onSend({ image: imageUrl });
@@ -101,7 +96,7 @@ export default class CustomActions extends React.Component {
       xhr.send(null);
     });
 
-    const imageNameBefore = uri.split("/");
+    const imageNameBefore = uri.split('/');
     const imageName = imageNameBefore[imageNameBefore.length - 1];
 
     const ref = firebase.storage().ref().child(`images/${imageName}`);
@@ -122,9 +117,6 @@ export default class CustomActions extends React.Component {
       'Send Location',
       'Cancel',
     ];
-
-    console.log("Custom actions button pressed");
-
     const cancelButtonIndex = options.length - 1;
     this.props.showActionSheetWithOptions(
       {

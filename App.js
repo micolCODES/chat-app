@@ -17,7 +17,6 @@ export default class App extends React.Component {
   render() {
     return (
       <NavigationContainer>
-        {/* puts screen on top of each other*/}
         <Stack.Navigator initialRouteName="Start">
           <Stack.Screen
             name="Start"
