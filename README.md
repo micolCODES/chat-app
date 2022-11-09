@@ -66,3 +66,7 @@ JavaScript, React Native, GiftedChat, Firebase, Expo
 - "react-native-safe-area-context": "4.3.1",
 - "react-native-screens": "~3.15.0",
 - "react-navigation": "4.4.4"
+
+## Screenshots
+![This is the start view](img/start.png)
+![This is the chat view](img/chat.png)
